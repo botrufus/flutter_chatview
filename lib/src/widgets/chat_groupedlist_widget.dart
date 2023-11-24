@@ -47,6 +47,7 @@ class ChatGroupedListWidget extends StatefulWidget {
     this.swipeToReplyConfig,
     this.repliedMessageConfig,
     this.typeIndicatorConfig,
+    this.scrollPhysics,
   }) : super(key: key);
 
   /// Allow user to swipe to see time while reaction pop is not open.
@@ -91,6 +92,9 @@ class ChatGroupedListWidget extends StatefulWidget {
   /// Provide flag for turn on/off to see message crated time view when user
   /// swipe whole chat.
   final bool isEnableSwipeToSeeTime;
+
+  /// Provides physics of chat view
+  final ScrollPhysics? scrollPhysics;
 
   @override
   State<ChatGroupedListWidget> createState() => _ChatGroupedListWidgetState();
@@ -162,7 +166,9 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
     return SingleChildScrollView(
       reverse: true,
       // When reaction popup is being appeared at that user should not scroll.
-      physics: showPopUp ? const NeverScrollableScrollPhysics() : null,
+      physics: showPopUp
+          ? const NeverScrollableScrollPhysics()
+          : widget.scrollPhysics,
       padding: EdgeInsets.only(bottom: showTypingIndicator ? 50 : 0),
       controller: widget.scrollController,
       child: Column(

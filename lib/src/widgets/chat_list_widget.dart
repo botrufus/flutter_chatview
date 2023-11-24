@@ -51,6 +51,7 @@ class ChatListWidget extends StatefulWidget {
     this.loadMoreData,
     this.isLastPage,
     this.onChatListTap,
+    this.scrollPhysics,
   }) : super(key: key);
 
   /// Provides controller for accessing few function for running chat.
@@ -107,6 +108,9 @@ class ChatListWidget extends StatefulWidget {
 
   /// Provides callback when user tap anywhere on whole chat.
   final VoidCallBack? onChatListTap;
+
+  /// Provides physics of chat view
+  final ScrollPhysics? scrollPhysics;
 
   @override
   State<ChatListWidget> createState() => _ChatListWidgetState();
@@ -221,6 +225,7 @@ class _ChatListWidgetState extends State<ChatListWidget>
                       }
                     },
                     onChatListTap: _onChatListTap,
+                    scrollPhysics: widget.scrollPhysics,
                   ),
                   if (featureActiveConfig?.enableReactionPopup ?? false)
                     ReactionPopup(
