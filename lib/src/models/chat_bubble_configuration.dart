@@ -49,6 +49,8 @@ class ChatBubbleConfiguration {
 
   final ReceiptsWidgetConfig? receiptsWidgetConfig;
 
+  final bool showSenderName;
+
   const ChatBubbleConfiguration({
     this.padding,
     this.margin,
@@ -58,5 +60,6 @@ class ChatBubbleConfiguration {
     this.outgoingChatBubbleConfig,
     this.onDoubleTap,
     this.receiptsWidgetConfig,
+    this.showSenderName = false,
   });
 }
