@@ -51,6 +51,9 @@ class ChatBubbleConfiguration {
 
   final bool showSenderName;
 
+  /// Flag to indicate wether receipts should be displayed or not
+  final bool showReceipt;
+
   const ChatBubbleConfiguration({
     this.padding,
     this.margin,
@@ -60,6 +63,7 @@ class ChatBubbleConfiguration {
     this.outgoingChatBubbleConfig,
     this.onDoubleTap,
     this.receiptsWidgetConfig,
-    this.showSenderName = false,
+    this.showSenderName = true,
+    this.showReceipt = true,
   });
 }

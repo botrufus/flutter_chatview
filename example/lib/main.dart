@@ -180,6 +180,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 const ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
             color: theme.outgoingChatBubbleColor,
           ),
+          showSenderName: false,
+          showReceipt: false,
           inComingChatBubbleConfig: ChatBubble(
             linkPreviewConfig: LinkPreviewConfiguration(
               linkStyle: TextStyle(
