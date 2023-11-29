@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 import 'dart:io' if (kIsWeb) 'dart:html';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../values/typedefs.dart';
@@ -32,7 +32,7 @@ class ChatViewAppBar extends StatelessWidget {
     required this.chatTitle,
     this.backGroundColor,
     this.userStatus,
-    this.profilePicture,
+    this.image,
     this.chatTitleTextStyle,
     this.userStatusTextStyle,
     this.backArrowColor,
@@ -54,7 +54,7 @@ class ChatViewAppBar extends StatelessWidget {
   final String? userStatus;
 
   /// Allow user to change profile picture in appbar.
-  final String? profilePicture;
+  final Widget? image;
 
   /// Allow user to change text style of chat title.
   final TextStyle? chatTitleTextStyle;
@@ -110,12 +110,10 @@ class ChatViewAppBar extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  if (profilePicture != null)
+                  if (image != null)
                     Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                          backgroundImage: NetworkImage(profilePicture!)),
-                    ),
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: image),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
