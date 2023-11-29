@@ -56,6 +56,7 @@ class ChatView extends StatefulWidget {
     ChatViewStateConfiguration? chatViewStateConfig,
     this.featureActiveConfig = const FeatureActiveConfig(),
     this.scrollPhysics,
+    this.chatOverlay,
   })  : chatBackgroundConfig =
             chatBackgroundConfig ?? const ChatBackgroundConfiguration(),
         chatViewStateConfig =
@@ -142,6 +143,8 @@ class ChatView extends StatefulWidget {
   /// Provides physics of chat view
   final ScrollPhysics? scrollPhysics;
 
+  final Widget? chatOverlay;
+
   @override
   State<ChatView> createState() => _ChatViewState();
 }
@@ -206,6 +209,7 @@ class _ChatViewState extends State<ChatView>
         child: Column(
           children: [
             if (widget.appBar != null) widget.appBar!,
+            if (widget.chatOverlay != null) widget.chatOverlay!,
             Expanded(
               child: Stack(
                 children: [
