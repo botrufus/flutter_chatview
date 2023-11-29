@@ -213,8 +213,10 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
                         profilePic: profileCircleConfig?.profileImageUrl,
                       )),
           SizedBox(
-            height: MediaQuery.of(context).size.width *
-                (widget.replyMessage.message.isNotEmpty ? 0.3 : 0.14),
+            height: featureActiveConfig?.enableTextField == true
+                ? MediaQuery.of(context).size.width *
+                    (widget.replyMessage.message.isNotEmpty ? 0.3 : 0.14)
+                : 0,
           ),
         ],
       ),
