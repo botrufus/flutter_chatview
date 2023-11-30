@@ -158,6 +158,9 @@ class _ChatScreenState extends State<ChatScreen> {
             textStyle: TextStyle(color: theme.textFieldTextColor),
           ),
           micIconColor: theme.replyMicIconColor,
+          enableGalleryImagePicker: false,
+          enableCameraImagePicker: false,
+          allowRecordingVoice: false,
           voiceRecordingConfiguration: VoiceRecordingConfiguration(
             backgroundColor: theme.waveformBackgroundColor,
             recorderIconColor: theme.recordIconColor,

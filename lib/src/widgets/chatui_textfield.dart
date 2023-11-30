@@ -189,6 +189,7 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
                             color: Colors.grey.shade600,
                             letterSpacing: 0.25,
                           ),
+                      isDense: true,
                       contentPadding: textFieldConfig?.contentPadding ??
                           const EdgeInsets.symmetric(horizontal: 6),
                       border: _outLineBorder,
@@ -206,6 +207,11 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
                 builder: (_, inputTextValue, child) {
                   if (inputTextValue.isNotEmpty) {
                     return IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
                       color: sendMessageConfig?.defaultSendButtonColor ??
                           Colors.green,
                       onPressed: () {
