@@ -42,6 +42,8 @@ class Message {
   /// Provides reply message if user triggers any reply on any message.
   final ReplyMessage replyMessage;
 
+  final int? repliesTo;
+
   /// Represents reaction on message.
   final Reaction reaction;
 
@@ -60,6 +62,7 @@ class Message {
     required this.createdAt,
     required this.sendBy,
     this.replyMessage = const ReplyMessage(),
+    this.repliesTo,
     Reaction? reaction,
     this.messageType = MessageType.text,
     this.voiceMessageDuration,
