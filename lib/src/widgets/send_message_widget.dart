@@ -328,6 +328,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
         messageType: message.messageType,
         messageId: message.id,
         voiceMessageDuration: message.voiceMessageDuration,
+        originalMessage: message,
       );
     }
     FocusScope.of(context).requestFocus(_focusNode);

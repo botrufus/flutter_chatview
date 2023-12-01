@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import '../values/enumaration.dart';
+import '../../chatview.dart';
 
 class ReplyMessage {
   /// Provides reply message.
@@ -38,6 +38,8 @@ class ReplyMessage {
   /// Id of message, it replies to.
   final String messageId;
 
+  final Message? originalMessage;
+
   const ReplyMessage({
     this.messageId = '',
     this.message = '',
@@ -45,23 +47,6 @@ class ReplyMessage {
     this.replyBy = '',
     this.messageType = MessageType.text,
     this.voiceMessageDuration,
+    this.originalMessage,
   });
-
-  factory ReplyMessage.fromJson(Map<String, dynamic> json) => ReplyMessage(
-        message: json['message'],
-        replyBy: json['replyBy'],
-        replyTo: json['replyTo'],
-        messageType: json["message_type"],
-        messageId: json["id"],
-        voiceMessageDuration: json["voiceMessageDuration"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'message': message,
-        'replyBy': replyBy,
-        'replyTo': replyTo,
-        'message_type': messageType,
-        'id': messageId,
-        'voiceMessageDuration': voiceMessageDuration,
-      };
 }
