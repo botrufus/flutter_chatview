@@ -41,6 +41,7 @@ class ChatUITextField extends StatefulWidget {
     required this.onPressed,
     required this.onRecordingComplete,
     required this.onImageSelected,
+    required this.sendDisabled,
   }) : super(key: key);
 
   /// Provides configuration of default text field in chat.
@@ -60,6 +61,8 @@ class ChatUITextField extends StatefulWidget {
 
   /// Provides callback when user select images from camera/gallery.
   final StringsCallBack onImageSelected;
+
+  final bool sendDisabled;
 
   @override
   State<ChatUITextField> createState() => _ChatUITextFieldState();
@@ -214,10 +217,12 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
                       ),
                       color: sendMessageConfig?.defaultSendButtonColor ??
                           Colors.green,
-                      onPressed: () {
-                        widget.onPressed();
-                        _inputText.value = '';
-                      },
+                      onPressed: widget.sendDisabled
+                          ? null
+                          : () {
+                              widget.onPressed();
+                              _inputText.value = '';
+                            },
                       icon: sendMessageConfig?.sendButtonIcon ??
                           const Icon(Icons.send),
                     );

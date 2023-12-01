@@ -75,6 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChatView(
+        sendDisabled: true,
         scrollPhysics: const BouncingScrollPhysics(),
         currentUser: currentUser,
         chatController: _chatController,
@@ -95,6 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
           flashingCircleDarkColor: theme.flashingCircleDarkColor,
         ),
         appBar: ChatViewAppBar(
+          isConnected: false,
           elevation: theme.elevation,
           backGroundColor: theme.appBarColor,
           backArrowColor: theme.backArrowColor,

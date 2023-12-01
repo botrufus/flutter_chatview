@@ -21,6 +21,7 @@
  */
 import 'dart:io' if (kIsWeb) 'dart:html';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,7 @@ class ChatViewAppBar extends StatelessWidget {
     this.padding,
     this.leading,
     this.showLeading = true,
+    required this.isConnected,
   }) : super(key: key);
 
   /// Allow user to change colour of appbar.
@@ -83,6 +85,8 @@ class ChatViewAppBar extends StatelessWidget {
   /// Allow user to turn on/off leading icon.
   final bool showLeading;
 
+  final bool isConnected;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -107,35 +111,48 @@ class ChatViewAppBar extends StatelessWidget {
                       color: backArrowColor,
                     ),
                   ),
-            Expanded(
-              child: Row(
-                children: [
-                  if (image != null)
-                    Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: image),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        chatTitle,
-                        style: chatTitleTextStyle ??
-                            const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.25,
+            isConnected
+                ? Expanded(
+                    child: Row(
+                      children: [
+                        if (image != null)
+                          Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: image),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              chatTitle,
+                              style: chatTitleTextStyle ??
+                                  const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.25,
+                                  ),
                             ),
-                      ),
-                      if (userStatus != null)
-                        Text(
-                          userStatus!,
-                          style: userStatusTextStyle,
+                            if (userStatus != null)
+                              Text(
+                                userStatus!,
+                                style: userStatusTextStyle,
+                              ),
+                          ],
                         ),
-                    ],
+                      ],
+                    ),
+                  )
+                : const Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CupertinoActivityIndicator(),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Waiting for network"),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
             if (actions != null) ...actions!,
           ],
         ),

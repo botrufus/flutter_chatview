@@ -57,6 +57,7 @@ class ChatView extends StatefulWidget {
     this.featureActiveConfig = const FeatureActiveConfig(),
     this.scrollPhysics,
     this.chatOverlay,
+    required this.sendDisabled,
   })  : chatBackgroundConfig =
             chatBackgroundConfig ?? const ChatBackgroundConfiguration(),
         chatViewStateConfig =
@@ -144,6 +145,8 @@ class ChatView extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
 
   final Widget? chatOverlay;
+
+  final bool sendDisabled;
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -274,6 +277,7 @@ class _ChatViewState extends State<ChatView>
                       onReplyCallback: (reply) => replyMessage.value = reply,
                       onReplyCloseCallback: () =>
                           replyMessage.value = const ReplyMessage(),
+                      sendDisabled: widget.sendDisabled,
                     ),
                 ],
               ),
