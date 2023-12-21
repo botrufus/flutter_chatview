@@ -53,13 +53,9 @@ class ChatController {
   ///  ````
   set setTypingIndicator(bool value) => _showTypingIndicator.value = value;
 
-  /// Represents list of chat users
-  List<ChatUser> chatUsers;
-
   ChatController({
     required this.initialMessageList,
     required this.scrollController,
-    required this.chatUsers,
   });
 
   /// Represents message stream of chat
@@ -80,8 +76,7 @@ class ChatController {
     required String messageId,
     required String userId,
   }) {
-    final message =
-        initialMessageList.firstWhere((element) => element.id == messageId);
+    final message = initialMessageList.firstWhere((element) => element.id == messageId);
     final reactedUserIds = message.reaction.reactedUserIds;
     final indexOfMessage = initialMessageList.indexOf(message);
     final userIndex = reactedUserIds.indexOf(userId);
@@ -125,8 +120,4 @@ class ChatController {
     initialMessageList.insertAll(0, messageList);
     messageStreamController.sink.add(initialMessageList);
   }
-
-  /// Function for getting ChatUser object from user id
-  ChatUser getUserFromId(String userId) =>
-      chatUsers.firstWhere((element) => element.id == userId);
 }
