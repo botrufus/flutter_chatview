@@ -27,7 +27,6 @@ import 'package:flutter/material.dart';
 import '../../chatview.dart';
 import 'message_time_widget.dart';
 import 'message_view.dart';
-import 'profile_circle.dart';
 import 'reply_message_widget.dart';
 import 'swipe_to_reply.dart';
 
@@ -99,14 +98,13 @@ class ChatBubbleWidget extends StatefulWidget {
 class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
   String get replyMessage => widget.message.replyMessage.message;
 
-  bool get isMessageBySender => widget.message.sendBy == currentUser?.id;
+  bool get isMessageBySender => chatController?.isCurrentUser(widget.message.sendBy) ?? false;
 
   bool get isLastMessage => chatController?.initialMessageList.last.id == widget.message.id;
 
   ProfileCircleConfiguration? get profileCircleConfig => widget.profileCircleConfig;
   FeatureActiveConfig? featureActiveConfig;
   ChatController? chatController;
-  ChatUser? currentUser;
   int? maxDuration;
 
   @override
@@ -115,7 +113,6 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
     if (provide != null) {
       featureActiveConfig = provide!.featureActiveConfig;
       chatController = provide!.chatController;
-      currentUser = provide!.currentUser;
     }
   }
 
@@ -193,13 +190,6 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                   ),
           ),
           if (isMessageBySender && widget.chatBubbleConfig?.showReceipt == true) ...[getReciept()],
-          if (isMessageBySender && (featureActiveConfig?.enableCurrentUserProfileAvatar ?? true))
-            ProfileCircle(
-              bottomPadding: widget.message.reaction.reactions.isNotEmpty ? profileCircleConfig?.bottomPadding ?? 15 : profileCircleConfig?.bottomPadding ?? 2,
-              profileCirclePadding: profileCircleConfig?.padding,
-              imageUrl: currentUser?.profilePhoto,
-              circleRadius: profileCircleConfig?.circleRadius,
-            ),
         ],
       ),
     );
@@ -253,16 +243,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           onLongPress: widget.onLongPress,
           chatBubbleMaxWidth: widget.chatBubbleConfig?.maxWidth,
           longPressAnimationDuration: widget.chatBubbleConfig?.longPressAnimationDuration,
-          onDoubleTap: featureActiveConfig?.enableDoubleTapToLike ?? false
-              ? widget.chatBubbleConfig?.onDoubleTap ??
-                  (message) => currentUser != null
-                      ? chatController?.setReaction(
-                          emoji: heart,
-                          messageId: message.id,
-                          userId: currentUser!.id,
-                        )
-                      : null
-              : null,
+          onDoubleTap: null,
           shouldHighlight: widget.shouldHighlight,
           controller: chatController,
           highlightColor: widget.repliedMessageConfig?.repliedMsgAutoScrollConfig.highlightColor ?? Colors.grey,

@@ -34,14 +34,12 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   AppTheme theme = LightTheme();
   bool isDarkTheme = false;
-  final currentUser = ChatUser(
-    id: '1',
-    name: 'Flutter',
-    profilePhoto: Data.profileImage,
-  );
   final _chatController = ChatController(
     initialMessageList: Data.messageList,
     scrollController: ScrollController(),
+    getCurrentUserId: () => 0,
+    getUserName: (id) => "",
+    isCurrentUser: (id) => false,
   );
 
   void _showHideTypingIndicator() {
@@ -54,7 +52,6 @@ class _ChatScreenState extends State<ChatScreen> {
       body: ChatView(
         sendDisabled: true,
         scrollPhysics: const BouncingScrollPhysics(),
-        currentUser: currentUser,
         chatController: _chatController,
         onSendTap: _onSendTap,
         featureActiveConfig: const FeatureActiveConfig(
@@ -259,7 +256,7 @@ class _ChatScreenState extends State<ChatScreen> {
         id: id.toString(),
         createdAt: DateTime.now(),
         message: message,
-        sendBy: currentUser.id,
+        sendBy: "0",
         replyMessage: replyMessage,
         messageType: messageType,
       ),

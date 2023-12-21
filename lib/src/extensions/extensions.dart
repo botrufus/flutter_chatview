@@ -23,6 +23,7 @@ import 'package:chatview/chatview.dart';
 import 'package:chatview/src/widgets/chat_view_inherited_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../utils/constants/constants.dart';
 import '../utils/emoji_parser.dart';
 import '../utils/package_strings.dart';
@@ -71,18 +72,10 @@ extension ValidateString on String {
   bool get isUrl => Uri.tryParse(this)?.isAbsolute ?? false;
 
   Widget getUserProfilePicture({
-    required ChatUser? Function(String) getChatUser,
     double? profileCircleRadius,
     EdgeInsets? profileCirclePadding,
   }) {
-    return Padding(
-      padding: profileCirclePadding ?? const EdgeInsets.only(left: 4),
-      child: CircleAvatar(
-        radius: profileCircleRadius ?? 8,
-        backgroundImage:
-            NetworkImage(getChatUser(this)?.profilePhoto ?? profileImage),
-      ),
-    );
+    return const SizedBox();
   }
 }
 

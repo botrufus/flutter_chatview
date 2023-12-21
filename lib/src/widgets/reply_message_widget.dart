@@ -20,23 +20,15 @@
  * SOFTWARE.
  */
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
-import 'package:chatview/src/models/models.dart';
 import 'package:chatview/src/utils/package_strings.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/constants.dart';
-import 'chat_view_inherited_widget.dart';
 import 'vertical_line.dart';
 
-class ReplyMessageWidget extends StatelessWidget {
-  const ReplyMessageWidget({
-    Key? key,
-    required this.message,
-    this.repliedMessageConfig,
-    this.onTap,
-  }) : super(key: key);
-
+class ReplyMessageWidget extends StatefulWidget {
   /// Provides message instance of chat.
   final Message message;
 
@@ -47,29 +39,49 @@ class ReplyMessageWidget extends StatelessWidget {
   /// Provides call back when user taps on replied message.
   final VoidCallback? onTap;
 
+  const ReplyMessageWidget({
+    Key? key,
+    required this.message,
+    this.repliedMessageConfig,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  ReplyMessageWidgetState createState() => ReplyMessageWidgetState();
+}
+
+class ReplyMessageWidgetState extends State<ReplyMessageWidget> {
+  ChatController? chatController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (provide != null) {
+      chatController = provide!.chatController;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentUser = ChatViewInheritedWidget.of(context)?.currentUser;
-    final replyBySender = message.replyMessage.replyBy == currentUser?.id;
+    final replyBySender = chatController?.isCurrentUser(widget.message.replyMessage.replyBy) ?? false;
     final textTheme = Theme.of(context).textTheme;
-    final replyMessage = message.replyMessage.message;
-    final chatController = ChatViewInheritedWidget.of(context)?.chatController;
+    final replyMessage = widget.message.replyMessage.message;
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
-        margin: repliedMessageConfig?.margin ??
+        margin: widget.repliedMessageConfig?.margin ??
             const EdgeInsets.only(
               right: horizontalPadding,
               left: horizontalPadding,
               bottom: 4,
             ),
-        constraints: BoxConstraints(maxWidth: repliedMessageConfig?.maxWidth ?? 280),
+        constraints: BoxConstraints(maxWidth: widget.repliedMessageConfig?.maxWidth ?? 280),
         child: Column(
           crossAxisAlignment: replyBySender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Text(
               "${PackageStrings.repliedBy}",
-              style: repliedMessageConfig?.replyTitleTextStyle ?? textTheme.bodyMedium!.copyWith(fontSize: 14, letterSpacing: 0.3),
+              style: widget.repliedMessageConfig?.replyTitleTextStyle ?? textTheme.bodyMedium!.copyWith(fontSize: 14, letterSpacing: 0.3),
             ),
             const SizedBox(height: 6),
             IntrinsicHeight(
@@ -78,30 +90,30 @@ class ReplyMessageWidget extends StatelessWidget {
                 children: [
                   if (!replyBySender)
                     VerticalLine(
-                      verticalBarWidth: repliedMessageConfig?.verticalBarWidth,
-                      verticalBarColor: repliedMessageConfig?.verticalBarColor,
+                      verticalBarWidth: widget.repliedMessageConfig?.verticalBarWidth,
+                      verticalBarColor: widget.repliedMessageConfig?.verticalBarColor,
                       rightPadding: 4,
                     ),
                   Flexible(
                     child: Opacity(
-                      opacity: repliedMessageConfig?.opacity ?? 0.8,
-                      child: message.replyMessage.messageType.isImage
+                      opacity: widget.repliedMessageConfig?.opacity ?? 0.8,
+                      child: widget.message.replyMessage.messageType.isImage
                           ? Container(
-                              height: repliedMessageConfig?.repliedImageMessageHeight ?? 100,
-                              width: repliedMessageConfig?.repliedImageMessageWidth ?? 80,
+                              height: widget.repliedMessageConfig?.repliedImageMessageHeight ?? 100,
+                              width: widget.repliedMessageConfig?.repliedImageMessageWidth ?? 80,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(replyMessage),
                                   fit: BoxFit.fill,
                                 ),
-                                borderRadius: repliedMessageConfig?.borderRadius ?? BorderRadius.circular(14),
+                                borderRadius: widget.repliedMessageConfig?.borderRadius ?? BorderRadius.circular(14),
                               ),
                             )
                           : Container(
                               constraints: BoxConstraints(
-                                maxWidth: repliedMessageConfig?.maxWidth ?? 280,
+                                maxWidth: widget.repliedMessageConfig?.maxWidth ?? 280,
                               ),
-                              padding: repliedMessageConfig?.padding ??
+                              padding: widget.repliedMessageConfig?.padding ??
                                   const EdgeInsets.symmetric(
                                     vertical: 8,
                                     horizontal: 12,
@@ -111,35 +123,35 @@ class ReplyMessageWidget extends StatelessWidget {
                                   replyMessage: replyMessage,
                                   replyBySender: replyBySender,
                                 ),
-                                color: repliedMessageConfig?.backgroundColor ?? Colors.grey.shade500,
+                                color: widget.repliedMessageConfig?.backgroundColor ?? Colors.grey.shade500,
                               ),
-                              child: message.replyMessage.messageType.isVoice
+                              child: widget.message.replyMessage.messageType.isVoice
                                   ? Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
                                           Icons.mic,
-                                          color: repliedMessageConfig?.micIconColor ?? Colors.white,
+                                          color: widget.repliedMessageConfig?.micIconColor ?? Colors.white,
                                         ),
                                         const SizedBox(width: 2),
-                                        if (message.replyMessage.voiceMessageDuration != null)
+                                        if (widget.message.replyMessage.voiceMessageDuration != null)
                                           Text(
-                                            message.replyMessage.voiceMessageDuration!.toHHMMSS(),
-                                            style: repliedMessageConfig?.textStyle,
+                                            widget.message.replyMessage.voiceMessageDuration!.toHHMMSS(),
+                                            style: widget.repliedMessageConfig?.textStyle,
                                           ),
                                       ],
                                     )
                                   : Text(
                                       replyMessage,
-                                      style: repliedMessageConfig?.textStyle ?? textTheme.bodyMedium!.copyWith(color: Colors.black),
+                                      style: widget.repliedMessageConfig?.textStyle ?? textTheme.bodyMedium!.copyWith(color: Colors.black),
                                     ),
                             ),
                     ),
                   ),
                   if (replyBySender)
                     VerticalLine(
-                      verticalBarWidth: repliedMessageConfig?.verticalBarWidth,
-                      verticalBarColor: repliedMessageConfig?.verticalBarColor,
+                      verticalBarWidth: widget.repliedMessageConfig?.verticalBarWidth,
+                      verticalBarColor: widget.repliedMessageConfig?.verticalBarColor,
                       leftPadding: 4,
                     ),
                 ],
@@ -156,8 +168,8 @@ class ReplyMessageWidget extends StatelessWidget {
     required bool replyBySender,
   }) =>
       replyBySender
-          ? repliedMessageConfig?.borderRadius ??
+          ? widget.repliedMessageConfig?.borderRadius ??
               (replyMessage.length < 37 ? BorderRadius.circular(replyBorderRadius1) : BorderRadius.circular(replyBorderRadius2))
-          : repliedMessageConfig?.borderRadius ??
+          : widget.repliedMessageConfig?.borderRadius ??
               (replyMessage.length < 29 ? BorderRadius.circular(replyBorderRadius1) : BorderRadius.circular(replyBorderRadius2));
 }

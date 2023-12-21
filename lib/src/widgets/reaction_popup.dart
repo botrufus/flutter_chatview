@@ -47,13 +47,11 @@ class ReactionPopup extends StatefulWidget {
   ReactionPopupState createState() => ReactionPopupState();
 }
 
-class ReactionPopupState extends State<ReactionPopup>
-    with SingleTickerProviderStateMixin {
+class ReactionPopupState extends State<ReactionPopup> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
-  ReactionPopupConfiguration? get reactionPopupConfig =>
-      widget.reactionPopupConfig;
+  ReactionPopupConfiguration? get reactionPopupConfig => widget.reactionPopupConfig;
 
   bool get showPopUp => widget.showPopUp;
   double _yCoordinate = 0.0;
@@ -61,7 +59,6 @@ class ReactionPopupState extends State<ReactionPopup>
   Message? _message;
 
   ChatController? chatController;
-  ChatUser? currentUser;
 
   @override
   void initState() {
@@ -72,8 +69,7 @@ class ReactionPopupState extends State<ReactionPopup>
   void _initializeAnimationControllers() {
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.reactionPopupConfig?.animationDuration ??
-          const Duration(milliseconds: 180),
+      duration: widget.reactionPopupConfig?.animationDuration ?? const Duration(milliseconds: 180),
     );
     _scaleAnimation = CurvedAnimation(
       parent: _animationController,
@@ -87,7 +83,6 @@ class ReactionPopupState extends State<ReactionPopup>
     super.didChangeDependencies();
     if (provide != null) {
       chatController = provide!.chatController;
-      currentUser = provide!.currentUser;
     }
   }
 
@@ -120,18 +115,15 @@ class ReactionPopupState extends State<ReactionPopup>
                           child: _reactionPopupRow,
                         )
                       : Container(
-                          constraints: BoxConstraints(
-                              maxWidth: reactionPopupConfig?.maxWidth ?? 350),
-                          margin: reactionPopupConfig?.margin ??
-                              const EdgeInsets.symmetric(horizontal: 25),
+                          constraints: BoxConstraints(maxWidth: reactionPopupConfig?.maxWidth ?? 350),
+                          margin: reactionPopupConfig?.margin ?? const EdgeInsets.symmetric(horizontal: 25),
                           padding: reactionPopupConfig?.padding ??
                               const EdgeInsets.symmetric(
                                 vertical: 6,
                                 horizontal: 14,
                               ),
                           decoration: BoxDecoration(
-                            color: reactionPopupConfig?.backgroundColor ??
-                                Colors.white,
+                            color: reactionPopupConfig?.backgroundColor ?? Colors.white,
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               reactionPopupConfig?.shadow ??
@@ -155,15 +147,10 @@ class ReactionPopupState extends State<ReactionPopup>
   Widget get _reactionPopupRow => EmojiRow(
         onEmojiTap: (emoji) {
           widget.onTap();
-          if (currentUser != null && _message != null) {
+          if (_message != null) {
             reactionPopupConfig?.userReactionCallback?.call(
               _message!,
               emoji,
-            );
-            chatController?.setReaction(
-              emoji: emoji,
-              messageId: _message!.id,
-              userId: currentUser!.id,
             );
           }
         },

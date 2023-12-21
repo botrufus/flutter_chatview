@@ -25,7 +25,6 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:chatview/chatview.dart';
 import 'package:chatview/src/extensions/extensions.dart';
 import 'package:chatview/src/utils/package_strings.dart';
-import 'package:chatview/src/widgets/chatui_textfield.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
@@ -75,21 +74,26 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
   final _textEditingController = TextEditingController();
   final ValueNotifier<ReplyMessage> _replyMessage = ValueNotifier(const ReplyMessage());
 
+  ChatController? chatController;
+
   ReplyMessage get replyMessage => _replyMessage.value;
   final _focusNode = FocusNode();
 
-  ChatUser? currentUser;
+  String? get repliedUserName => replyMessage.replyTo.isNotEmpty ? widget.chatController.getUserName(replyMessage.replyTo) : null;
+
+  String get _replyTo => chatController?.isCurrentUser(replyMessage.replyTo) ?? false ? PackageStrings.you : repliedUserName ?? '';
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (provide != null) {
-      currentUser = provide!.currentUser;
+      chatController = provide!.chatController;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final replyTitle = "${PackageStrings.replyTo} $_replyTo";
     return widget.sendMessageBuilder != null
         ? Positioned(
             right: 0,
@@ -161,7 +165,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "",
+                                            replyTitle,
                                             style: TextStyle(
                                               color: widget.sendMessageConfig?.replyTitleColor ?? Colors.deepPurple,
                                               fontWeight: FontWeight.bold,
@@ -294,17 +298,15 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
   }
 
   void assignReplyMessage(Message message) {
-    if (currentUser != null) {
-      _replyMessage.value = ReplyMessage(
-        message: message.message,
-        replyBy: currentUser!.id,
-        replyTo: message.sendBy,
-        messageType: message.messageType,
-        messageId: message.id,
-        voiceMessageDuration: message.voiceMessageDuration,
-        originalMessage: message,
-      );
-    }
+    _replyMessage.value = ReplyMessage(
+      message: message.message,
+      replyBy: chatController?.getCurrentUserId().toString() ?? "",
+      replyTo: message.sendBy,
+      messageType: message.messageType,
+      messageId: message.id,
+      voiceMessageDuration: message.voiceMessageDuration,
+      originalMessage: message,
+    );
     FocusScope.of(context).requestFocus(_focusNode);
     if (widget.onReplyCallback != null) widget.onReplyCallback!(replyMessage);
   }

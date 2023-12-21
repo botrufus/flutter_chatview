@@ -31,6 +31,12 @@ class ChatController {
 
   ScrollController scrollController;
 
+  bool Function(String) isCurrentUser;
+
+  String? Function(String) getUserName;
+
+  int Function() getCurrentUserId;
+
   /// Allow user to show typing indicator defaults to false.
   final ValueNotifier<bool> _showTypingIndicator = ValueNotifier(false);
 
@@ -56,6 +62,9 @@ class ChatController {
   ChatController({
     required this.initialMessageList,
     required this.scrollController,
+    required this.isCurrentUser,
+    required this.getUserName,
+    required this.getCurrentUserId,
   });
 
   /// Represents message stream of chat
