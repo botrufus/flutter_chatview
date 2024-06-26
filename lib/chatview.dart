@@ -33,3 +33,4 @@ export 'src/values/typedefs.dart';
 export 'src/widgets/chat_view.dart';
 export 'src/widgets/chat_view_appbar.dart';
 export 'src/widgets/chatui_textfield.dart';
+export 'src/widgets/reaction_widget.dart';
