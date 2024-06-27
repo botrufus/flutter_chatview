@@ -58,6 +58,8 @@ class Message {
 
   final String customMessageType;
 
+  final int? eventId;
+
   Message({
     this.id = '',
     required this.message,
@@ -70,6 +72,7 @@ class Message {
     this.voiceMessageDuration,
     MessageStatus status = MessageStatus.pending,
     required this.customMessageType,
+    this.eventId,
   })  : reaction = reaction ?? Reaction(reactions: [], reactedUserIds: []),
         key = GlobalKey(),
         _status = ValueNotifier(status),
