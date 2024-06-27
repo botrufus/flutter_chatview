@@ -50,7 +50,7 @@ class ChatViewAppBar extends StatelessWidget {
   final Color? backGroundColor;
 
   /// Allow user to change title of appbar.
-  final String chatTitle;
+  final Widget chatTitle;
 
   /// Allow user to change whether user is available or offline.
   final String? userStatus;
@@ -105,9 +105,7 @@ class ChatViewAppBar extends StatelessWidget {
                   IconButton(
                     onPressed: onBackPress ?? () => Navigator.pop(context),
                     icon: Icon(
-                      (!kIsWeb && Platform.isIOS)
-                          ? Icons.arrow_back_ios
-                          : Icons.arrow_back,
+                      (!kIsWeb && Platform.isIOS) ? Icons.arrow_back_ios : Icons.arrow_back,
                       color: backArrowColor,
                     ),
                   ),
@@ -115,22 +113,11 @@ class ChatViewAppBar extends StatelessWidget {
                 ? Expanded(
                     child: Row(
                       children: [
-                        if (image != null)
-                          Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: image),
+                        if (image != null) Padding(padding: const EdgeInsets.only(right: 8.0), child: image),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              chatTitle,
-                              style: chatTitleTextStyle ??
-                                  const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.25,
-                                  ),
-                            ),
+                            chatTitle,
                             if (userStatus != null)
                               Text(
                                 userStatus!,
