@@ -56,6 +56,8 @@ class Message {
   /// Provides max duration for recorded voice message.
   Duration? voiceMessageDuration;
 
+  final String customMessageType;
+
   Message({
     this.id = '',
     required this.message,
@@ -67,14 +69,12 @@ class Message {
     this.messageType = MessageType.text,
     this.voiceMessageDuration,
     MessageStatus status = MessageStatus.pending,
+    required this.customMessageType,
   })  : reaction = reaction ?? Reaction(reactions: [], reactedUserIds: []),
         key = GlobalKey(),
         _status = ValueNotifier(status),
         assert(
-          (messageType.isVoice
-              ? ((defaultTargetPlatform == TargetPlatform.iOS ||
-                  defaultTargetPlatform == TargetPlatform.android))
-              : true),
+          (messageType.isVoice ? ((defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)) : true),
           "Voice messages are only supported with android and ios platform",
         );
 
