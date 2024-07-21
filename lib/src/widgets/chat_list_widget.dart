@@ -166,25 +166,27 @@ class _ChatListWidgetState extends State<ChatListWidget> with SingleTickerProvid
     if (messageList.isNotEmpty) chatController.scrollToLastMessage();
   }
 
+  Widget get loadingWidget => ValueListenableBuilder<bool>(
+        valueListenable: _isNextPageLoading,
+        builder: (_, isNextPageLoading, child) {
+          if (isNextPageLoading && (featureActiveConfig?.enablePagination ?? false)) {
+            return SizedBox(
+              height: Scaffold.of(context).appBarMaxHeight,
+              child: Center(
+                child: widget.loadingWidget ?? const CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      );
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ValueListenableBuilder<bool>(
-          valueListenable: _isNextPageLoading,
-          builder: (_, isNextPageLoading, child) {
-            if (isNextPageLoading && (featureActiveConfig?.enablePagination ?? false)) {
-              return SizedBox(
-                height: Scaffold.of(context).appBarMaxHeight,
-                child: Center(
-                  child: widget.loadingWidget ?? const CircularProgressIndicator(),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+        if (widget.reverse) loadingWidget,
         Expanded(
           child: ValueListenableBuilder<bool>(
             valueListenable: showPopUp,
@@ -238,6 +240,7 @@ class _ChatListWidgetState extends State<ChatListWidget> with SingleTickerProvid
             },
           ),
         ),
+        if (!widget.reverse) loadingWidget,
       ],
     );
   }
