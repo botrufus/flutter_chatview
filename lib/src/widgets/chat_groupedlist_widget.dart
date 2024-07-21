@@ -285,7 +285,7 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget> with Tick
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              final message = snapshot.data![index];
+              final message = widget.reverse ? snapshot.data![index] : snapshot.data!.reversed.toList()[index];
               return ValueListenableBuilder<String?>(
                 valueListenable: _replyId,
                 builder: (context, state, child) {
