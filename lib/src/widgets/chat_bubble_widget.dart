@@ -151,7 +151,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
       margin: widget.chatBubbleConfig?.margin ?? const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: isMessageBySender ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: widget.chatBubbleConfig?.alignment != null ? widget.chatBubbleConfig!.alignment! : (isMessageBySender ? MainAxisAlignment.end : MainAxisAlignment.start),
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
@@ -212,8 +212,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           valueListenable: chatController!.initialMessageList.last.statusNotifier,
           builder: (context, value, child) {
             if (ChatViewInheritedWidget.of(context)?.featureActiveConfig.receiptsBuilderVisibility ?? true) {
-              return widget.chatBubbleConfig?.outgoingChatBubbleConfig?.receiptsWidgetConfig?.receiptsBuilder?.call(value) ??
-                  sendMessageAnimationBuilder(value);
+              return widget.chatBubbleConfig?.outgoingChatBubbleConfig?.receiptsWidgetConfig?.receiptsBuilder?.call(value) ?? sendMessageAnimationBuilder(value);
             }
             return sendMessageAnimationBuilder(value);
           });

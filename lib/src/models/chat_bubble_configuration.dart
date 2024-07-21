@@ -54,6 +54,8 @@ class ChatBubbleConfiguration {
   /// Flag to indicate wether receipts should be displayed or not
   final bool showReceipt;
 
+  final MainAxisAlignment? alignment;
+
   const ChatBubbleConfiguration({
     this.padding,
     this.margin,
@@ -65,5 +67,6 @@ class ChatBubbleConfiguration {
     this.receiptsWidgetConfig,
     this.showSenderName = true,
     this.showReceipt = true,
+    this.alignment,
   });
 }

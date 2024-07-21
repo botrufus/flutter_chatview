@@ -49,6 +49,7 @@ class ChatGroupedListWidget extends StatefulWidget {
     this.typeIndicatorConfig,
     this.scrollPhysics,
     this.gridDelegate,
+    required this.reverse,
   }) : super(key: key);
 
   /// Allow user to swipe to see time while reaction pop is not open.
@@ -98,6 +99,8 @@ class ChatGroupedListWidget extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
 
   final SliverGridDelegate? gridDelegate;
+
+  final bool reverse;
 
   @override
   State<ChatGroupedListWidget> createState() => _ChatGroupedListWidgetState();
@@ -164,7 +167,7 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget> with Tick
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      reverse: true,
+      reverse: widget.reverse,
       // When reaction popup is being appeared at that user should not scroll.
       physics: showPopUp ? const NeverScrollableScrollPhysics() : widget.scrollPhysics,
       padding: EdgeInsets.only(bottom: showTypingIndicator ? 50 : 0),
