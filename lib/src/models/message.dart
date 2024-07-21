@@ -60,6 +60,8 @@ class Message {
 
   final int? eventId;
 
+  final int? communityId;
+
   Message({
     this.id = '',
     required this.message,
@@ -73,6 +75,7 @@ class Message {
     MessageStatus status = MessageStatus.pending,
     required this.customMessageType,
     this.eventId,
+    this.communityId,
   })  : reaction = reaction ?? Reaction(reactions: [], reactedUserIds: []),
         key = GlobalKey(),
         _status = ValueNotifier(status),
