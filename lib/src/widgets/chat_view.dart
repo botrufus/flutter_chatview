@@ -57,6 +57,7 @@ class ChatView extends StatefulWidget {
     this.scrollPhysics,
     this.chatOverlay,
     required this.sendDisabled,
+    this.gridDelegate,
   })  : chatBackgroundConfig = chatBackgroundConfig ?? const ChatBackgroundConfiguration(),
         chatViewStateConfig = chatViewStateConfig ?? const ChatViewStateConfiguration(),
         super(key: key);
@@ -141,6 +142,8 @@ class ChatView extends StatefulWidget {
   final Widget? chatOverlay;
 
   final bool sendDisabled;
+
+  final SliverGridDelegate? gridDelegate;
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -242,6 +245,7 @@ class _ChatViewState extends State<ChatView> with SingleTickerProviderStateMixin
                           onChatListTap: widget.onChatListTap,
                           assignReplyMessage: (message) => _sendMessageKey.currentState?.assignReplyMessage(message),
                           scrollPhysics: widget.scrollPhysics,
+                          gridDelegate: widget.gridDelegate,
                         );
                       },
                     ),

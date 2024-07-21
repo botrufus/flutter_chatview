@@ -52,6 +52,7 @@ class ChatListWidget extends StatefulWidget {
     this.isLastPage,
     this.onChatListTap,
     this.scrollPhysics,
+    this.gridDelegate,
   }) : super(key: key);
 
   /// Provides controller for accessing few function for running chat.
@@ -111,6 +112,8 @@ class ChatListWidget extends StatefulWidget {
 
   /// Provides physics of chat view
   final ScrollPhysics? scrollPhysics;
+
+  final SliverGridDelegate? gridDelegate;
 
   @override
   State<ChatListWidget> createState() => _ChatListWidgetState();
@@ -217,6 +220,7 @@ class _ChatListWidgetState extends State<ChatListWidget> with SingleTickerProvid
                     },
                     onChatListTap: _onChatListTap,
                     scrollPhysics: widget.scrollPhysics,
+                    gridDelegate: widget.gridDelegate,
                   ),
                   if (featureActiveConfig?.enableReactionPopup ?? false)
                     ReactionPopup(
