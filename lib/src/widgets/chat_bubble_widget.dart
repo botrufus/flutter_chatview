@@ -151,7 +151,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
       margin: widget.chatBubbleConfig?.margin ?? const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: widget.chatBubbleConfig?.alignment != null ? widget.chatBubbleConfig!.alignment! : (isMessageBySender ? MainAxisAlignment.end : MainAxisAlignment.start),
+        mainAxisAlignment: isMessageBySender ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
@@ -222,7 +222,8 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
 
   Widget _messagesWidgetColumn() {
     return Column(
-      crossAxisAlignment: isMessageBySender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment:
+          widget.chatBubbleConfig?.alignment != null ? widget.chatBubbleConfig!.alignment! : (isMessageBySender ? CrossAxisAlignment.end : CrossAxisAlignment.start),
       children: [
         if (replyMessage.isNotEmpty)
           widget.repliedMessageConfig?.repliedMessageWidgetBuilder != null

@@ -50,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChatView(
-        sendDisabled: true,
+        sendDisabled: false,
         scrollPhysics: const BouncingScrollPhysics(),
         chatController: _chatController,
         onSendTap: _onSendTap,
@@ -74,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
           elevation: theme.elevation,
           backGroundColor: theme.appBarColor,
           backArrowColor: theme.backArrowColor,
-          chatTitle: "Chat view",
+          chatTitle: const Text("ChatView"),
           chatTitleTextStyle: TextStyle(
             color: theme.appBarTitleTextStyle,
             fontWeight: FontWeight.bold,
@@ -146,6 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         chatBubbleConfig: ChatBubbleConfiguration(
+          alignment: CrossAxisAlignment.center,
           outgoingChatBubbleConfig: ChatBubble(
             linkPreviewConfig: LinkPreviewConfiguration(
               backgroundColor: theme.linkPreviewOutgoingChatColor,
@@ -259,6 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
         sendBy: "0",
         replyMessage: replyMessage,
         messageType: messageType,
+        customMessageType: 'text',
       ),
     );
     Future.delayed(const Duration(milliseconds: 300), () {

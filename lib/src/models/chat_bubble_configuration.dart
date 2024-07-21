@@ -54,7 +54,7 @@ class ChatBubbleConfiguration {
   /// Flag to indicate wether receipts should be displayed or not
   final bool showReceipt;
 
-  final MainAxisAlignment? alignment;
+  final CrossAxisAlignment? alignment;
 
   const ChatBubbleConfiguration({
     this.padding,
