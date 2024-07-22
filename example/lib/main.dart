@@ -51,7 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: ChatView(
         sendDisabled: false,
-        scrollPhysics: const BouncingScrollPhysics(),
+        scrollPhysics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         chatController: _chatController,
         onSendTap: _onSendTap,
         featureActiveConfig: const FeatureActiveConfig(

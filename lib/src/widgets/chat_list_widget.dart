@@ -193,40 +193,43 @@ class _ChatListWidgetState extends State<ChatListWidget> with SingleTickerProvid
             builder: (_, showPopupValue, child) {
               return Stack(
                 children: [
-                  ChatGroupedListWidget(
-                    showPopUp: showPopupValue,
-                    showTypingIndicator: showTypingIndicator,
-                    scrollController: scrollController,
-                    isEnableSwipeToSeeTime: featureActiveConfig?.enableSwipeToSeeTime ?? true,
-                    chatBackgroundConfig: widget.chatBackgroundConfig,
-                    assignReplyMessage: widget.assignReplyMessage,
-                    replyMessage: widget.replyMessage,
-                    swipeToReplyConfig: widget.swipeToReplyConfig,
-                    repliedMessageConfig: widget.repliedMessageConfig,
-                    profileCircleConfig: widget.profileCircleConfig,
-                    messageConfig: widget.messageConfig,
-                    chatBubbleConfig: widget.chatBubbleConfig,
-                    typeIndicatorConfig: widget.typeIndicatorConfig,
-                    onChatBubbleLongPress: (yCoordinate, xCoordinate, message) {
-                      if (featureActiveConfig?.enableReactionPopup ?? false) {
-                        _reactionPopupKey.currentState?.refreshWidget(
-                          message: message,
-                          xCoordinate: xCoordinate,
-                          yCoordinate: yCoordinate < 0 ? -(yCoordinate) - 5 : yCoordinate,
-                        );
-                        showPopUp.value = true;
-                      }
-                      if (featureActiveConfig?.enableReplySnackBar ?? false) {
-                        _showReplyPopup(
-                          message: message,
-                          sendByCurrentUser: chatController?.isCurrentUser(message.sendBy) ?? false,
-                        );
-                      }
-                    },
-                    onChatListTap: _onChatListTap,
-                    scrollPhysics: widget.scrollPhysics,
-                    gridDelegate: widget.gridDelegate,
-                    reverse: widget.reverse,
+                  SizedBox(
+                    height: double.infinity,
+                    child: ChatGroupedListWidget(
+                      showPopUp: showPopupValue,
+                      showTypingIndicator: showTypingIndicator,
+                      scrollController: scrollController,
+                      isEnableSwipeToSeeTime: featureActiveConfig?.enableSwipeToSeeTime ?? true,
+                      chatBackgroundConfig: widget.chatBackgroundConfig,
+                      assignReplyMessage: widget.assignReplyMessage,
+                      replyMessage: widget.replyMessage,
+                      swipeToReplyConfig: widget.swipeToReplyConfig,
+                      repliedMessageConfig: widget.repliedMessageConfig,
+                      profileCircleConfig: widget.profileCircleConfig,
+                      messageConfig: widget.messageConfig,
+                      chatBubbleConfig: widget.chatBubbleConfig,
+                      typeIndicatorConfig: widget.typeIndicatorConfig,
+                      onChatBubbleLongPress: (yCoordinate, xCoordinate, message) {
+                        if (featureActiveConfig?.enableReactionPopup ?? false) {
+                          _reactionPopupKey.currentState?.refreshWidget(
+                            message: message,
+                            xCoordinate: xCoordinate,
+                            yCoordinate: yCoordinate < 0 ? -(yCoordinate) - 5 : yCoordinate,
+                          );
+                          showPopUp.value = true;
+                        }
+                        if (featureActiveConfig?.enableReplySnackBar ?? false) {
+                          _showReplyPopup(
+                            message: message,
+                            sendByCurrentUser: chatController?.isCurrentUser(message.sendBy) ?? false,
+                          );
+                        }
+                      },
+                      onChatListTap: _onChatListTap,
+                      scrollPhysics: widget.scrollPhysics,
+                      gridDelegate: widget.gridDelegate,
+                      reverse: widget.reverse,
+                    ),
                   ),
                   if (featureActiveConfig?.enableReactionPopup ?? false)
                     ReactionPopup(
