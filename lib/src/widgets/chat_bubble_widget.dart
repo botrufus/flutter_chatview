@@ -163,7 +163,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                               widget.message.voiceMessageDuration = Duration(milliseconds: maxDuration!);
                             }
                             if (widget.swipeToReplyConfig?.onLeftSwipe != null) {
-                              widget.swipeToReplyConfig?.onLeftSwipe!(widget.message.message, widget.message.sendBy);
+                              widget.swipeToReplyConfig?.onLeftSwipe!(widget.message.message ?? "", widget.message.sendBy);
                             }
                             widget.onSwipe(widget.message);
                           }
@@ -179,7 +179,7 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                               widget.message.voiceMessageDuration = Duration(milliseconds: maxDuration!);
                             }
                             if (widget.swipeToReplyConfig?.onRightSwipe != null) {
-                              widget.swipeToReplyConfig?.onRightSwipe!(widget.message.message, widget.message.sendBy);
+                              widget.swipeToReplyConfig?.onRightSwipe!(widget.message.message ?? "", widget.message.sendBy);
                             }
                             widget.onSwipe(widget.message);
                           }

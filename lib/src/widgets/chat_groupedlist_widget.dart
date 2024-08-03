@@ -321,7 +321,7 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget> with Tick
       shrinkWrap: true,
       elements: snapshot.data!,
       groupBy: (element) => element.createdAt.getDateFromDateTime,
-      itemComparator: (message1, message2) => message1.message.compareTo(message2.message),
+      itemComparator: (message1, message2) => (message1.message ?? "").compareTo(message2.message ?? ""),
       physics: const NeverScrollableScrollPhysics(),
       order: chatBackgroundConfig.groupedListOrder,
       sort: chatBackgroundConfig.sortEnable,

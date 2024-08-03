@@ -299,7 +299,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
 
   void assignReplyMessage(Message message) {
     _replyMessage.value = ReplyMessage(
-      message: message.message,
+      message: message.message ?? "",
       replyBy: chatController?.getCurrentUserId().toString() ?? "",
       replyTo: message.sendBy,
       messageType: message.messageType,

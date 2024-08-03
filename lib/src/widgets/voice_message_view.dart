@@ -50,8 +50,7 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
   late PlayerController controller;
   late StreamSubscription<PlayerState> playerStateSubscription;
 
-  final ValueNotifier<PlayerState> _playerState =
-      ValueNotifier(PlayerState.stopped);
+  final ValueNotifier<PlayerState> _playerState = ValueNotifier(PlayerState.stopped);
 
   PlayerState get playerState => _playerState.value;
 
@@ -62,13 +61,10 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
     super.initState();
     controller = PlayerController()
       ..preparePlayer(
-        path: widget.message.message,
-        noOfSamples: widget.config?.playerWaveStyle
-                ?.getSamplesForWidth(widget.screenWidth * 0.5) ??
-            playerWaveStyle.getSamplesForWidth(widget.screenWidth * 0.5),
+        path: widget.message.message ?? "",
+        noOfSamples: widget.config?.playerWaveStyle?.getSamplesForWidth(widget.screenWidth * 0.5) ?? playerWaveStyle.getSamplesForWidth(widget.screenWidth * 0.5),
       ).whenComplete(() => widget.onMaxDuration?.call(controller.maxDuration));
-    playerStateSubscription = controller.onPlayerStateChanged
-        .listen((state) => _playerState.value = state);
+    playerStateSubscription = controller.onPlayerStateChanged.listen((state) => _playerState.value = state);
   }
 
   @override
@@ -88,12 +84,9 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
           decoration: widget.config?.decoration ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: widget.isMessageBySender
-                    ? widget.outgoingChatBubbleConfig?.color
-                    : widget.inComingChatBubbleConfig?.color,
+                color: widget.isMessageBySender ? widget.outgoingChatBubbleConfig?.color : widget.inComingChatBubbleConfig?.color,
               ),
-          padding: widget.config?.padding ??
-              const EdgeInsets.symmetric(horizontal: 8),
+          padding: widget.config?.padding ?? const EdgeInsets.symmetric(horizontal: 8),
           margin: widget.config?.margin ??
               EdgeInsets.symmetric(
                 horizontal: 8,
@@ -106,18 +99,17 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
                 builder: (context, state, child) {
                   return IconButton(
                     onPressed: _playOrPause,
-                    icon:
-                        state.isStopped || state.isPaused || state.isInitialised
-                            ? widget.config?.playIcon ??
-                                const Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                )
-                            : widget.config?.pauseIcon ??
-                                const Icon(
-                                  Icons.stop,
-                                  color: Colors.white,
-                                ),
+                    icon: state.isStopped || state.isPaused || state.isInitialised
+                        ? widget.config?.playIcon ??
+                            const Icon(
+                              Icons.play_arrow,
+                              color: Colors.white,
+                            )
+                        : widget.config?.pauseIcon ??
+                            const Icon(
+                              Icons.stop,
+                              color: Colors.white,
+                            ),
                   );
                 },
                 valueListenable: _playerState,
@@ -126,14 +118,11 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
                 size: Size(widget.screenWidth * 0.50, 60),
                 playerController: controller,
                 waveformType: WaveformType.fitWidth,
-                playerWaveStyle:
-                    widget.config?.playerWaveStyle ?? playerWaveStyle,
-                padding: widget.config?.waveformPadding ??
-                    const EdgeInsets.only(right: 10),
+                playerWaveStyle: widget.config?.playerWaveStyle ?? playerWaveStyle,
+                padding: widget.config?.waveformPadding ?? const EdgeInsets.only(right: 10),
                 margin: widget.config?.waveformMargin,
                 animationCurve: widget.config?.animationCurve ?? Curves.easeIn,
-                animationDuration: widget.config?.animationDuration ??
-                    const Duration(milliseconds: 500),
+                animationDuration: widget.config?.animationDuration ?? const Duration(milliseconds: 500),
                 enableSeekGesture: widget.config?.enableSeekGesture ?? true,
               ),
             ],
@@ -151,13 +140,10 @@ class _VoiceMessageViewState extends State<VoiceMessageView> {
 
   void _playOrPause() {
     assert(
-      defaultTargetPlatform == TargetPlatform.iOS ||
-          defaultTargetPlatform == TargetPlatform.android,
+      defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android,
       "Voice messages are only supported with android and ios platform",
     );
-    if (playerState.isInitialised ||
-        playerState.isPaused ||
-        playerState.isStopped) {
+    if (playerState.isInitialised || playerState.isPaused || playerState.isStopped) {
       controller.startPlayer(finishMode: FinishMode.pause);
     } else {
       controller.pausePlayer();
